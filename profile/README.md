@@ -33,7 +33,7 @@ Our project integrates historical hotel data for development purposes, but the f
 
 ## Key Technologies
 
-- **Backend**: Python (Flask)
+- **Backend**: Python with Flask and SQLite
 - **Data Format**: JSON, CSV
 - **Data Visualization**: Tableau
 - **Architecture**: Microservices
