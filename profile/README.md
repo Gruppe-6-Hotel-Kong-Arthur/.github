@@ -13,7 +13,7 @@ This project leverages a microservice architecture to ensure scalability and fle
 - **Technologies**: Python, Flask, JSON (CSV) for data exchange, and Tableau for data visualization.
 - **Live Data Handling**: Build a system that updates and shows data in real time, moving away from the historical, static data found in the current system.
 
-For a detailed description of the project requirements, visit our [Trello Board](https://trello.com/invite/b/6718aabe0e15a2c0ca0d5252/ATTIb2bb54308eb271203b88bb8a689a499b378BCD22/hotel-kong-arthur-group-6).
+For a detailed description of the project requirements, visit our [Trello Board](https://trello.com/invite/b/6718aabe0e15a2c0ca0d5252/ATTIb2bb54308eb271203b88bb8a689a499b378BCD22/hotel-kong-arthur-group-6) and project description [Analyse af Hoteldata med Microservices, Tableau, SCRUM](https://github.com/user-attachments/files/17489442/Analyse.af.Hoteldata.med.Microservices.Tableau.Scrum.pdf).
 
 ## Repository Structure
 
