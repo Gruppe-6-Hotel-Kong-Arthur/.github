@@ -4,7 +4,7 @@
 
 Welcome to the **Hotel Kong Arthur - Group 6** GitHub Organization. Our team is tasked with developing an advanced data analytics platform for Hotel Kong Arthur to help optimize their operations. The system will enable hotel decision-makers to analyze key operational data in real time, providing insights on occupancy rates, revenue, customer satisfaction, and other important metrics.
 
-This project leverages a microservice architecture to ensure scalability and flexibility. The backend is built using **Python** and **Flask**, and data is exchanged in **JSON** format. For data visualization, we are integrating **Tableau** to provide clear, actionable insights.
+This project leverages a microservice architecture to ensure scalability and flexibility. The backend is built using **Python** and **Flask**, and data is exchanged in **JSON** formatted and can export **CSV** format. For data visualization, we are integrating **Tableau** to provide clear, actionable insights.
 
 ## Project Goals
 
@@ -22,10 +22,12 @@ Each repository within this organization follows a **microservice pattern**, whe
 ### Microservices Overview
 
 - **Guest Service**: Handles guest registration, profile updates, and preferences.
-- **Booking Service**: Manages room reservations, check-ins, and check-outs.
-- **Room Service**: Manages room availability, types, and pricing.
+- **Reservation Service**: Manages room reservations/bookings, check-ins, and check-outs.
+- **Room Inventory Service**: Manages room availability, types, and pricing.
 - **Drink Service**: Handles drink orders from the bar, inventory, and billing for room service.
-- **Drink Unit Sold Service**: Tracks the number of drink units sold to ensure accurate inventory and financial reporting.
+- **Drink Sales Service**: Tracks the number of drink units sold to ensure accurate inventory and financial reporting.
+- **CSV Export Service**: Generates CSV files for data visualization from the aggregated data of various services. Ensures data is formatted correctly for tools like Tableau.
+- **Hotel API Gateway**: Acts as a single entry point for client applications, routing requests to the appropriate microservices.
 
 ## Data Sources
 
@@ -48,4 +50,4 @@ All project tasks, progress, and backlog items are tracked via our **Trello Boar
 | Name              | Role               | GitHub Profile                               |
 |-------------------|--------------------|----------------------------------------------|
 | **Marcus**        | Lead Developer      | [marcus-rk](https://github.com/marcus-rk)    |
-| **Christian**     | Lead Developer  | [ChristianBT96](https://github.com/ChristianBT96) |
+| **Christian**     | Lead Developer      | [ChristianBT96](https://github.com/ChristianBT96) |
