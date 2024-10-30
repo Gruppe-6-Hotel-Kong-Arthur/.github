@@ -37,6 +37,164 @@ Each repository within this organization follows a **microservice pattern**, whe
 - **CSV Export Service**: Generates CSV files for data visualization from the aggregated data of various services. Ensures data is formatted correctly for tools like Tableau.
 - **Hotel API Gateway**: Acts as a single entry point for client applications, routing requests to the appropriate microservices.
 
+---
+
+```mermaid
+flowchart TD
+    %% Microservices and Interactions
+    subgraph API_Gateway
+        HotelAPI[Hotel API Gateway]
+    end
+
+    subgraph GuestService
+        GuestsTable[Guests]
+        CountriesTable[Countries]
+    end
+
+    subgraph ReservationService
+        ReservationsTable[Reservations]
+    end
+
+    subgraph RoomInventoryService
+        RoomTypesTable[RoomTypes]
+        RoomsTable[Rooms]
+        SeasonsTable[Seasons]
+        SeasonDatesTable[SeasonDates]
+    end
+
+    subgraph DrinkService
+        CategoriesTable[Categories]
+        DrinksTable[Drinks]
+    end
+
+    subgraph DrinkSalesService
+        DrinkSalesTable[DrinkSales]
+    end
+
+    subgraph CSVExportService
+        CSVExport[CSV Export Service]
+    end
+
+    %% External Client Requests
+    Client[Client Application] --> HotelAPI
+
+    %% API Gateway to Microservices
+    HotelAPI --> GuestService
+    HotelAPI --> ReservationService
+    HotelAPI --> RoomInventoryService
+    HotelAPI --> DrinkService
+    HotelAPI --> DrinkSalesService
+    HotelAPI --> CSVExportService
+
+    %% Microservices to Databases
+    GuestService --> GuestsTable
+    GuestService --> CountriesTable
+
+    ReservationService --> ReservationsTable
+    ReservationService --> RoomsTable
+    ReservationService --> GuestsTable
+    ReservationService --> SeasonsTable
+
+    RoomInventoryService --> RoomTypesTable
+    RoomInventoryService --> RoomsTable
+    RoomInventoryService --> SeasonsTable
+    RoomInventoryService --> SeasonDatesTable
+
+    DrinkService --> CategoriesTable
+    DrinkService --> DrinksTable
+
+    DrinkSalesService --> DrinkSalesTable
+    DrinkSalesService --> DrinksTable
+
+    CSVExportService --> GuestsTable
+    CSVExportService --> ReservationsTable
+    CSVExportService --> RoomTypesTable
+    CSVExportService --> DrinksTable
+    CSVExportService --> DrinkSalesTable
+
+    %% Table Relationships
+    %% RoomTypesTable ||--o{ RoomsTable : contains
+    %% SeasonsTable ||--o{ SeasonDatesTable : "contains"
+    %% GuestsTable }o--|| CountriesTable : "resides in"
+    %% CategoriesTable ||--o{ DrinksTable : "includes"
+```
+
+
+
+---
+```mermaid
+erDiagram
+    RoomTypes ||--o{ Rooms : contains
+    Seasons ||--o{ SeasonDates : contains
+    Guests }o--|| Countries : "resides in"
+    Categories ||--o{ Drinks : "includes"
+
+    RoomTypes {
+        INTEGER id PK
+        TEXT type_name UK
+        REAL base_price
+        INTEGER max_count
+    }
+
+    Rooms {
+        INTEGER id PK
+        INTEGER room_type_id FK
+        INTEGER availability
+    }
+
+    Reservations {
+        INTEGER id PK
+        INTEGER guest_id FK
+        INTEGER room_id FK
+        INTEGER season_id FK
+        DATE start_date
+        DATE end_date
+        REAL price
+    }
+
+    Seasons {
+        INTEGER id PK
+        TEXT season_type UK
+        REAL multiplier
+    }
+
+    SeasonDates {
+        INTEGER id PK
+        INTEGER season_id FK
+        DATE start_date
+        DATE end_date
+    }
+
+    Guests {
+        INTEGER id PK
+        TEXT first_name
+        TEXT last_name
+        INTEGER country_id FK
+    }
+
+    Countries {
+        INTEGER id PK
+        TEXT name UK
+    }
+
+    Categories {
+        INTEGER category_id PK
+        TEXT category_name UK
+    }
+
+    Drinks {
+        INTEGER drink_id PK
+        TEXT drink_name
+        INTEGER category_id FK
+        REAL price_dkk
+    }
+
+    DrinkSales {
+        INTEGER drink_id FK
+        INTEGER units_sold NOT NULL
+    }
+```
+
 ## Data Sources
 
 Our project integrates historical hotel data for development purposes, but the final system will handle live data feeds. Example data can be found in this repository: [Hotel Data](https://github.com/ITAKEA/hoteldata).
