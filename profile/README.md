@@ -279,53 +279,53 @@ Run each service in a container, linking them to the `microservice-network` and 
 
 ```bash
 # Run HotelAPIGateway
-docker run -d \
+docker rm -f hotel_api_gateway && docker run -d \
   --name hotel_api_gateway \
   --network microservice-network \
   -p 5000:5000 \
-  hotel_api_gateway && docker container prune -f
+  hotel_api_gateway
 
 # Run CSVExportService
-docker run -d \
+docker rm -f csv_export_service && docker run -d \
   --name csv_export_service \
   --network microservice-network \
   -p 5001:5001 \
-  csv_export_service && docker container prune -f
+  csv_export_service
 
 # Run DrinkSalesService
-docker run -d \
+docker rm -f drink_sales_service && docker run -d \
   --name drink_sales_service \
   --network microservice-network \
   -p 5002:5002 \
-  drink_sales_service && docker container prune -f
+  drink_sales_service
 
 # Run DrinkService
-docker run -d \
+docker rm -f drink_service && docker run -d \
   --name drink_service \
   --network microservice-network \
   -p 5003:5003 \
-  drink_service && docker container prune -f
+  drink_service
 
 # Run ReservationService
-docker run -d \
+docker rm -f reservation_service && docker run -d \
   --name reservation_service \
   --network microservice-network \
   -p 5004:5004 \
-  reservation_service && docker container prune -f
+  reservation_service
 
 # Run GuestService
-docker run -d \
+docker rm -f guest_service && docker run -d \
   --name guest_service \
   --network microservice-network \
   -p 5005:5005 \
-  guest_service && docker container prune -f
+  guest_service
 
 # Run RoomInventoryService
-docker run -d \
+docker rm -f room_inventory_service && docker run -d \
   --name room_inventory_service \
   --network microservice-network \
   -p 5006:5006 \
-  room_inventory_service && docker container prune -f
+  room_inventory_service
 ```
 
 #### 5. Verify Running Containers
