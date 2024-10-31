@@ -23,6 +23,43 @@ This project leverages a microservice architecture to ensure scalability and fle
 
 For a detailed description of the project requirements, visit our [Trello Board](https://trello.com/invite/b/6718aabe0e15a2c0ca0d5252/ATTIb2bb54308eb271203b88bb8a689a499b378BCD22/hotel-kong-arthur-group-6) and project description [Analyse af Hoteldata med Microservices, Tableau, SCRUM](https://github.com/user-attachments/files/17489442/Analyse.af.Hoteldata.med.Microservices.Tableau.Scrum.pdf).
 
+## Project phases
+This diagram illustrates the actual steps we took to execute the project, documenting our process from initial scoping to final visualization:
+```mermaid
+graph TD
+    A("Project Scoping & Requirements Gathering") --> B("Market Research & Competitive Analysis")
+    B --> C("Domain Model & Initial Architecture Design")
+    C --> D("SCRUM Framework Setup & User Story Creation")
+    D --> E("Trello Board Configuration for Sprint Planning")
+    E --> F("Microservice Implementation")
+    F --> G("Containerization & Deployment Preparation")
+    G --> H("Tableau Data Visualization Development")
+    
+    style A fill:#A3C1DA,stroke:#333,stroke-width:2px
+    style B fill:#A3C1DA,stroke:#333,stroke-width:2px
+    style C fill:#D4A5A5,stroke:#333,stroke-width:2px
+    style D fill:#C7D6A5,stroke:#333,stroke-width:2px
+    style E fill:#C7D6A5,stroke:#333,stroke-width:2px
+    style F fill:#A5D4B7,stroke:#333,stroke-width:2px
+    style G fill:#A5D4B7,stroke:#333,stroke-width:2px
+    style H fill:#B5A5D4,stroke:#333,stroke-width:2px
+    
+    subgraph Phase1 ["Discovery"]
+        A
+        B
+        C
+    end
+    subgraph Phase2 ["Development"]
+        D
+        E
+        F
+        G
+    end
+    subgraph Phase3 ["Visualization"]
+        H
+    end
+```
+
 ## Repository Structure
 
 Each repository within this organization follows a **microservice pattern**, where each microservice is self-contained and fulfills a specific business function, such as managing guest data, room availability, or booking information. Below is an overview of our planned services:
