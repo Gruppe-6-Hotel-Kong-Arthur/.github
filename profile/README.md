@@ -282,49 +282,49 @@ Run each service in a container, linking them to the `microservice-network` and 
 docker rm -f hotel_api_gateway && docker run -d \
   --name hotel_api_gateway \
   --network microservice-network \
-  -p 5000:5000 \
+  -p 5010:5010 \
   hotel_api_gateway
 
 # Run CSVExportService
 docker rm -f csv_export_service && docker run -d \
   --name csv_export_service \
   --network microservice-network \
-  -p 5001:5001 \
+  -p 5005:5005 \
   csv_export_service
 
 # Run DrinkSalesService
 docker rm -f drink_sales_service && docker run -d \
   --name drink_sales_service \
   --network microservice-network \
-  -p 5002:5002 \
+  -p 5006:5006 \
   drink_sales_service
 
 # Run DrinkService
 docker rm -f drink_service && docker run -d \
   --name drink_service \
   --network microservice-network \
-  -p 5003:5003 \
+  -p 5004:5004 \
   drink_service
 
 # Run ReservationService
 docker rm -f reservation_service && docker run -d \
   --name reservation_service \
   --network microservice-network \
-  -p 5004:5004 \
+  -p 5003:5003 \
   reservation_service
 
 # Run GuestService
 docker rm -f guest_service && docker run -d \
   --name guest_service \
   --network microservice-network \
-  -p 5005:5005 \
+  -p 5001:5001 \
   guest_service
 
 # Run RoomInventoryService
 docker rm -f room_inventory_service && docker run -d \
   --name room_inventory_service \
   --network microservice-network \
-  -p 5006:5006 \
+  -p 5002:5002 \
   room_inventory_service
 ```
 
