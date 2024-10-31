@@ -207,6 +207,76 @@ Our project integrates historical hotel data for development purposes, but the f
 - **Architecture**: Microservices
 - **Containerization**: Docker (for development and deployment)
 
+## Quick Start: Deploy All Microservices
+
+The following script clones each repository in this organization, builds Docker images for each microservice, and runs them in a shared Docker network. Copy and paste the entire code block into your terminal for a seamless setup.
+
+### Requirements
+
+- **Docker**: Ensure Docker is installed and running.
+- **Git**: Make sure you have Git installed to clone repositories.
+
+### Deployment Script
+
+```bash
+#!/bin/bash
+
+# Set up Docker network
+echo "Creating Docker network..."
+docker network create microservice-network || echo "Network already exists"
+
+# Define repositories with correct names and URLs
+declare -A repos=(
+  ["HotelAPIGateway"]="https://github.com/Gruppe-6-Hotel-Kong-Arthur/HotelAPIGateway.git"
+  ["CSVExportService"]="https://github.com/Gruppe-6-Hotel-Kong-Arthur/CSVExportService.git"
+  ["DrinkSalesService"]="https://github.com/Gruppe-6-Hotel-Kong-Arthur/DrinkSalesService.git"
+  ["DrinkService"]="https://github.com/Gruppe-6-Hotel-Kong-Arthur/DrinkService.git"
+  ["ReservationService"]="https://github.com/Gruppe-6-Hotel-Kong-Arthur/ReservationService.git"
+  ["GuestService"]="https://github.com/Gruppe-6-Hotel-Kong-Arthur/GuestService.git"
+  ["RoomInventoryService"]="https://github.com/Gruppe-6-Hotel-Kong-Arthur/RoomInventoryService.git"
+)
+
+# Clone, build, and run each microservice
+for service in "${!repos[@]}"; do
+  repo_url=${repos[$service]}
+  if [ -d "$service" ]; then
+    echo "Directory $service already exists, pulling latest changes..."
+    git -C $service pull
+  else
+    echo "Cloning $service..."
+    git clone $repo_url
+  fi
+
+  echo "Building Docker image for $service..."
+  docker build -t "$service" "./$service" && docker image prune -f -y
+
+  echo "Running $service container..."
+  docker run -d --name "$service" --network microservice-network "$service"
+done
+
+# Display running containers
+echo "All services are up and running:"
+docker ps
+```
+
+### Explanation
+
+- **Clones**: Pulls the latest code from each repository.
+- **Builds**: Creates Docker images for each service.
+- **Runs**: Launches each service in its own container within a shared Docker network (`microservice-network`).
+- **Network Isolation**: The shared network ensures inter-service communication.
+
+This script simplifies deploying all microservices. To stop and clean up all running containers, you can use:
+
+```bash
+docker stop $(docker ps -q) && docker rm $(docker ps -a -q)
+docker network rm microservice-network
+```
+
+This setup script ensures each service is ready to interact as expected, providing a quick and efficient way to deploy the full Hotel Kong Arthur platform.
+```
+
+
 ## Project Management
 
 All project tasks, progress, and backlog items are tracked via our **Trello Board**. You can access the board [here](https://trello.com/invite/b/6718aabe0e15a2c0ca0d5252/ATTIb2bb54308eb271203b88bb8a689a499b378BCD22/hotel-kong-arthur-group-6).
