@@ -207,15 +207,6 @@ Our project integrates historical hotel data for development purposes, but the f
 - **Architecture**: Microservices
 - **Containerization**: Docker (for development and deployment)
 
-## Quick Start: Deploy All Microservices
-
-The following script clones each repository in this organization, builds Docker images for each microservice, and runs them in a shared Docker network. Copy and paste the entire code block into your terminal for a seamless setup.
-
-### Requirements
-
-- **Docker**: Ensure Docker is installed and running.
-- **Git**: Make sure you have Git installed to clone repositories.
-
 ### Steps for Setting Up and Running Services
 
 #### 1. Clone Repositories
@@ -235,42 +226,42 @@ git clone https://github.com/Gruppe-6-Hotel-Kong-Arthur/RoomInventoryService.git
 
 #### 2. Build the Docker Images
 
-Navigate to each microservice directory and build its Docker image:
+Navigate to each microservice directory and build its Docker image, pruning unused images after the build:
 
 ```bash
 # Build HotelAPIGateway
 cd HotelAPIGateway
-docker build -t hotel_api_gateway .
+docker build -t hotel_api_gateway . && docker image prune -f
 cd ..
 
 # Build CSVExportService
 cd CSVExportService
-docker build -t csv_export_service .
+docker build -t csv_export_service . && docker image prune -f
 cd ..
 
 # Build DrinkSalesService
 cd DrinkSalesService
-docker build -t drink_sales_service .
+docker build -t drink_sales_service . && docker image prune -f
 cd ..
 
 # Build DrinkService
 cd DrinkService
-docker build -t drink_service .
+docker build -t drink_service . && docker image prune -f
 cd ..
 
 # Build ReservationService
 cd ReservationService
-docker build -t reservation_service .
+docker build -t reservation_service . && docker image prune -f
 cd ..
 
 # Build GuestService
 cd GuestService
-docker build -t guest_service .
+docker build -t guest_service . && docker image prune -f
 cd ..
 
 # Build RoomInventoryService
 cd RoomInventoryService
-docker build -t room_inventory_service .
+docker build -t room_inventory_service . && docker image prune -f
 cd ..
 ```
 
@@ -284,7 +275,7 @@ docker network create microservice-network
 
 #### 4. Run the Docker Containers
 
-Run each service in a container, linking them to the `microservice-network`:
+Run each service in a container, linking them to the `microservice-network` and pruning stopped containers:
 
 ```bash
 # Run HotelAPIGateway
@@ -292,49 +283,49 @@ docker run -d \
   --name hotel_api_gateway \
   --network microservice-network \
   -p 5000:5000 \
-  hotel_api_gateway
+  hotel_api_gateway && docker container prune -f
 
 # Run CSVExportService
 docker run -d \
   --name csv_export_service \
   --network microservice-network \
   -p 5001:5001 \
-  csv_export_service
+  csv_export_service && docker container prune -f
 
 # Run DrinkSalesService
 docker run -d \
   --name drink_sales_service \
   --network microservice-network \
   -p 5002:5002 \
-  drink_sales_service
+  drink_sales_service && docker container prune -f
 
 # Run DrinkService
 docker run -d \
   --name drink_service \
   --network microservice-network \
   -p 5003:5003 \
-  drink_service
+  drink_service && docker container prune -f
 
 # Run ReservationService
 docker run -d \
   --name reservation_service \
   --network microservice-network \
   -p 5004:5004 \
-  reservation_service
+  reservation_service && docker container prune -f
 
 # Run GuestService
 docker run -d \
   --name guest_service \
   --network microservice-network \
   -p 5005:5005 \
-  guest_service
+  guest_service && docker container prune -f
 
 # Run RoomInventoryService
 docker run -d \
   --name room_inventory_service \
   --network microservice-network \
   -p 5006:5006 \
-  room_inventory_service
+  room_inventory_service && docker container prune -f
 ```
 
 #### 5. Verify Running Containers
