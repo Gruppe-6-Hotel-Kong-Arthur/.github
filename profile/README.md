@@ -80,7 +80,7 @@ Each repository within this organization follows a **microservice pattern**, whe
 This diagram illustrates the comprehensive microservices architecture of our hotel management system. It shows how different services interact through an API Gateway, demonstrating the modular design and direct inter communication of the components.
 - **Centralized API Gateway**: Provides a single entry point for all client requests, simplifying external communication
 - **Separation of concerns (SoC)**: Each microservice focuses on a specific business function (guests, reservations, rooms, drinks) with independent responsibilities
-- **Low Coupling**: Microservices operate independently with minimal dependencies, enabling easier maintenance, testing, and individual service updates
+- **Low Coupling**: Each microservice has its own database, reducing interdependencies and allowing independent operation. Services request data from one another as needed, optimizing communication and simplifying maintenance and updates.
 - **Direct inter communication**: Services communicate directly between themselves to reduce latency and network overhead, bypassing the API gateway for efficient data exchange
 
 ```mermaid
