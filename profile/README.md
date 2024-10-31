@@ -238,29 +238,6 @@ docker network create microservice-network
 Now you can run each service in its own container, linking them to the microservice-network and configuring the necessary environment variables for inter-service communication:
 
 ```bash
-# Run HotelAPIGateway
-docker run -d --name hotel_api_gateway \
-  --network microservice-network \
-  -p 5010:5010 \
-  -e GUEST_SERVICE_URL=http://guest_service:5001 \
-  -e RESERVATION_SERVICE_URL=http://reservation_service:5003 \
-  -e ROOM_INVENTORY_SERVICE_URL=http://room_inventory_service:5002 \
-  -e DRINK_SERVICE_URL=http://drink_service:5004 \
-  -e DRINK_SALES_SERVICE_URL=http://drink_sales_service:5006 \
-  -e CSV_EXPORT_SERVICE_URL=http://csv_export_service:5005 \
-  marcusrk/hotel_api_gateway
-
-# Run CSVExportService
-docker run -d --name csv_export_service \
-  --network microservice-network \
-  -p 5005:5005 \
-  -e GUEST_SERVICE_URL=http://guest_service:5001 \
-  -e RESERVATION_SERVICE_URL=http://reservation_service:5003 \
-  -e ROOM_INVENTORY_SERVICE_URL=http://room_inventory_service:5002 \
-  -e DRINKS_SERVICE_URL=http://drink_service:5004 \
-  -e DRINK_SALES_SERVICE_URL=http://drink_sales_service:5006 \
-  marcusrk/csv_export_service
-
 # Run DrinkSalesService
 docker run -d --name drink_sales_service \
   --network microservice-network \
@@ -293,6 +270,30 @@ docker run -d --name room_inventory_service \
   --network microservice-network \
   -p 5002:5002 \
   marcusrk/room_inventory_service
+
+
+# Run CSVExportService
+docker run -d --name csv_export_service \
+  --network microservice-network \
+  -p 5005:5005 \
+  -e GUEST_SERVICE_URL=http://guest_service:5001 \
+  -e RESERVATION_SERVICE_URL=http://reservation_service:5003 \
+  -e ROOM_INVENTORY_SERVICE_URL=http://room_inventory_service:5002 \
+  -e DRINKS_SERVICE_URL=http://drink_service:5004 \
+  -e DRINK_SALES_SERVICE_URL=http://drink_sales_service:5006 \
+  marcusrk/csv_export_service
+
+# Run HotelAPIGateway
+docker run -d --name hotel_api_gateway \
+  --network microservice-network \
+  -p 5010:5010 \
+  -e GUEST_SERVICE_URL=http://guest_service:5001 \
+  -e RESERVATION_SERVICE_URL=http://reservation_service:5003 \
+  -e ROOM_INVENTORY_SERVICE_URL=http://room_inventory_service:5002 \
+  -e DRINK_SERVICE_URL=http://drink_service:5004 \
+  -e DRINK_SALES_SERVICE_URL=http://drink_sales_service:5006 \
+  -e CSV_EXPORT_SERVICE_URL=http://csv_export_service:5005 \
+  marcusrk/hotel_api_gateway
 ```
 
 ### Step 4: Verify Running Containers
