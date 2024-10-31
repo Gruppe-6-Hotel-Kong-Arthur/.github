@@ -207,8 +207,11 @@ Our project integrates historical hotel data for development purposes, but the f
 - **Architecture**: Microservices
 - **Containerization**: Docker (for development and deployment)
 
-## Set up with DockerHub
+# Microservices Setup with Docker
 
+This document provides step-by-step instructions on setting up and running the microservices using Docker. 
+
+## Set up with DockerHub
 
 ### Step 1: Pull Docker Images from Docker Hub
 
@@ -224,31 +227,76 @@ docker pull marcusrk/reservation_service:latest
 docker pull marcusrk/guest_service:latest
 docker pull marcusrk/room_inventory_service:latest
 ```
+### Step 2: Create a Docker Network
+To enable inter-service communication between the microservices, create a custom Docker network:
+
 ```bash
 docker network create microservice-network
 ```
+
+### Step 3: Run the Docker Containers with Environment Variables
+Now you can run each service in its own container, linking them to the microservice-network and configuring the necessary environment variables for inter-service communication:
+
 ```bash
 # Run HotelAPIGateway
-docker run -d --name hotel_api_gateway --network microservice-network -p 5010:5010 marcusrk/hotel_api_gateway
+docker run -d --name hotel_api_gateway \
+  --network microservice-network \
+  -p 5010:5010 \
+  -e GUEST_SERVICE_URL=http://guest_service:5001 \
+  -e RESERVATION_SERVICE_URL=http://reservation_service:5003 \
+  -e ROOM_INVENTORY_SERVICE_URL=http://room_inventory_service:5002 \
+  -e DRINK_SERVICE_URL=http://drink_service:5004 \
+  -e DRINK_SALES_SERVICE_URL=http://drink_sales_service:5006 \
+  -e CSV_EXPORT_SERVICE_URL=http://csv_export_service:5005 \
+  marcusrk/hotel_api_gateway
 
 # Run CSVExportService
-docker run -d --name csv_export_service --network microservice-network -p 5005:5005 marcusrk/csv_export_service
+docker run -d --name csv_export_service \
+  --network microservice-network \
+  -p 5005:5005 \
+  -e GUEST_SERVICE_URL=http://guest_service:5001 \
+  -e RESERVATION_SERVICE_URL=http://reservation_service:5003 \
+  -e ROOM_INVENTORY_SERVICE_URL=http://room_inventory_service:5002 \
+  -e DRINK_SERVICE_URL=http://drink_service:5004 \
+  -e DRINK_SALES_SERVICE_URL=http://drink_sales_service:5006 \
+  marcusrk/csv_export_service
 
 # Run DrinkSalesService
-docker run -d --name drink_sales_service --network microservice-network -p 5006:5006 marcusrk/drink_sales_service
+docker run -d --name drink_sales_service \
+  --network microservice-network \
+  -p 5006:5006 \
+  -e DRINK_SERVICE_URL=http://drink_service:5004 \
+  marcusrk/drink_sales_service
 
 # Run DrinkService
-docker run -d --name drink_service --network microservice-network -p 5004:5004 marcusrk/drink_service
+docker run -d --name drink_service \
+  --network microservice-network \
+  -p 5004:5004 \
+  marcusrk/drink_service
 
 # Run ReservationService
-docker run -d --name reservation_service --network microservice-network -p 5003:5003 marcusrk/reservation_service
+docker run -d --name reservation_service \
+  --network microservice-network \
+  -p 5003:5003 \
+  -e GUEST_SERVICE_URL=http://guest_service:5001 \
+  -e ROOM_INVENTORY_SERVICE_URL=http://room_inventory_service:5002 \
+  marcusrk/reservation_service
 
 # Run GuestService
-docker run -d --name guest_service --network microservice-network -p 5001:5001 marcusrk/guest_service
+docker run -d --name guest_service \
+  --network microservice-network \
+  -p 5001:5001 \
+  marcusrk/guest_service
 
 # Run RoomInventoryService
-docker run -d --name room_inventory_service --network microservice-network -p 5002:5002 marcusrk/room_inventory_service
+docker run -d --name room_inventory_service \
+  --network microservice-network \
+  -p 5002:5002 \
+  marcusrk/room_inventory_service
 ```
+
+### Step 4: Verify Running Containers
+To ensure that all services are running correctly, check the status of your containers:
 ```bash
 docker ps
 ```
