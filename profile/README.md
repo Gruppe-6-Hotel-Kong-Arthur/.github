@@ -76,6 +76,13 @@ Each repository within this organization follows a **microservice pattern**, whe
 
 ---
 
+## Microservices Architecture
+This diagram illustrates the comprehensive microservices architecture of our hotel management system. It shows how different services interact through an API Gateway, demonstrating the modular design and direct inter communication of the components.
+- **Centralized API Gateway**: Provides a single entry point for all client requests, simplifying external communication
+- **Separation of concerns (SoC)**: Each microservice focuses on a specific business function (guests, reservations, rooms, drinks) with independent responsibilities
+- **Low Coupling**: Microservices operate independently with minimal dependencies, enabling easier maintenance, testing, and individual service updates
+- **Direct inter communication**: Services communicate directly between themselves to reduce latency and network overhead, bypassing the API gateway for efficient data exchange
+
 ```mermaid
 flowchart TD
     %% Microservices and Interactions
@@ -155,10 +162,14 @@ flowchart TD
     %% GuestsTable }o--|| CountriesTable : "resides in"
     %% CategoriesTable ||--o{ DrinksTable : "includes"
 ```
-
-
-
 ---
+## Database Entity Relationships
+This Entity-Relationship Diagram (ERD) provides a detailed view of our database schema, showcasing the relationships between different entities in our hotel management system.
+
+- **Normalized Design**: Database schema minimizes data redundancy by breaking data into related tables, reducing storage waste and potential data inconsistencies
+- **Scalability**: Foreign key relationships minimize data redundancy, enabling easy addition of new data (e.g., rooms, seasons, drinks) without extensive reorganization.
+- **Database indexing**: Strategic indexing on primary and foreign keys to optimize query performance and reduce data retrieval times
+
 ```mermaid
 erDiagram
     RoomTypes ||--o{ Rooms : contains
@@ -231,7 +242,7 @@ erDiagram
         INTEGER units_sold NOT NULL
     }
 ```
-
+---
 ## Data Sources
 
 Our project integrates historical hotel data for development purposes, but the final system will handle live data feeds. Example data can be found in this repository: [Hotel Data](https://github.com/ITAKEA/hoteldata).
