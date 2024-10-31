@@ -207,9 +207,55 @@ Our project integrates historical hotel data for development purposes, but the f
 - **Architecture**: Microservices
 - **Containerization**: Docker (for development and deployment)
 
-### Steps for Setting Up and Running Services
+## Set up with DockerHub
 
-#### 1. Clone Repositories
+
+### Step 1: Pull Docker Images from Docker Hub
+
+To get the pre-built Docker images for each microservice, run the following commands in your terminal:
+
+```bash
+# Pull the Docker images
+docker pull marcusrk/hotel_api_gateway:latest
+docker pull marcusrk/csv_export_service:latest
+docker pull marcusrk/drink_sales_service:latest
+docker pull marcusrk/drink_service:latest
+docker pull marcusrk/reservation_service:latest
+docker pull marcusrk/guest_service:latest
+docker pull marcusrk/room_inventory_service:latest
+```
+```bash
+docker network create microservice-network
+```
+```bash
+# Run HotelAPIGateway
+docker run -d --name hotel_api_gateway --network microservice-network -p 5010:5010 marcusrk/hotel_api_gateway
+
+# Run CSVExportService
+docker run -d --name csv_export_service --network microservice-network -p 5005:5005 marcusrk/csv_export_service
+
+# Run DrinkSalesService
+docker run -d --name drink_sales_service --network microservice-network -p 5006:5006 marcusrk/drink_sales_service
+
+# Run DrinkService
+docker run -d --name drink_service --network microservice-network -p 5004:5004 marcusrk/drink_service
+
+# Run ReservationService
+docker run -d --name reservation_service --network microservice-network -p 5003:5003 marcusrk/reservation_service
+
+# Run GuestService
+docker run -d --name guest_service --network microservice-network -p 5001:5001 marcusrk/guest_service
+
+# Run RoomInventoryService
+docker run -d --name room_inventory_service --network microservice-network -p 5002:5002 marcusrk/room_inventory_service
+```
+```bash
+docker ps
+```
+
+## Steps for Setting Up and Running Services locally
+
+### 1. Clone Repositories
 
 In your terminal, clone each microservice repository:
 
@@ -224,7 +270,7 @@ git clone https://github.com/Gruppe-6-Hotel-Kong-Arthur/GuestService.git
 git clone https://github.com/Gruppe-6-Hotel-Kong-Arthur/RoomInventoryService.git
 ```
 
-#### 2. Build the Docker Images
+### 2. Build the Docker Images
 
 Navigate to each microservice directory and build its Docker image, pruning unused images after the build:
 
@@ -265,7 +311,7 @@ docker build -t room_inventory_service . && docker image prune -f
 cd ..
 ```
 
-#### 3. Create a Docker Network
+### 3. Create a Docker Network
 
 Create a custom Docker network for inter-service communication:
 
@@ -273,7 +319,7 @@ Create a custom Docker network for inter-service communication:
 docker network create microservice-network
 ```
 
-#### 4. Run the Docker Containers
+### 4. Run the Docker Containers
 
 Run each service in a container, linking them to the `microservice-network` and pruning stopped containers:
 
@@ -328,7 +374,7 @@ docker rm -f room_inventory_service && docker run -d \
   room_inventory_service
 ```
 
-#### 5. Verify Running Containers
+### 5. Verify Running Containers
 
 Check that all services are running correctly:
 
