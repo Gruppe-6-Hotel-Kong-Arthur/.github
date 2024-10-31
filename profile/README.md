@@ -216,65 +216,136 @@ The following script clones each repository in this organization, builds Docker 
 - **Docker**: Ensure Docker is installed and running.
 - **Git**: Make sure you have Git installed to clone repositories.
 
-### Deployment Script
+### Steps for Setting Up and Running Services
+
+#### 1. Clone Repositories
+
+In your terminal, clone each microservice repository:
 
 ```bash
-#!/bin/bash
+# Clone each repository and enter the base folder
+git clone https://github.com/Gruppe-6-Hotel-Kong-Arthur/HotelAPIGateway.git
+git clone https://github.com/Gruppe-6-Hotel-Kong-Arthur/CSVExportService.git
+git clone https://github.com/Gruppe-6-Hotel-Kong-Arthur/DrinkSalesService.git
+git clone https://github.com/Gruppe-6-Hotel-Kong-Arthur/DrinkService.git
+git clone https://github.com/Gruppe-6-Hotel-Kong-Arthur/ReservationService.git
+git clone https://github.com/Gruppe-6-Hotel-Kong-Arthur/GuestService.git
+git clone https://github.com/Gruppe-6-Hotel-Kong-Arthur/RoomInventoryService.git
+```
 
-# Set up Docker network
-echo "Creating Docker network..."
-docker network create microservice-network || echo "Network already exists"
+#### 2. Build the Docker Images
 
-# Define repositories with correct names and URLs
-declare -A repos=(
-  ["HotelAPIGateway"]="https://github.com/Gruppe-6-Hotel-Kong-Arthur/HotelAPIGateway.git"
-  ["CSVExportService"]="https://github.com/Gruppe-6-Hotel-Kong-Arthur/CSVExportService.git"
-  ["DrinkSalesService"]="https://github.com/Gruppe-6-Hotel-Kong-Arthur/DrinkSalesService.git"
-  ["DrinkService"]="https://github.com/Gruppe-6-Hotel-Kong-Arthur/DrinkService.git"
-  ["ReservationService"]="https://github.com/Gruppe-6-Hotel-Kong-Arthur/ReservationService.git"
-  ["GuestService"]="https://github.com/Gruppe-6-Hotel-Kong-Arthur/GuestService.git"
-  ["RoomInventoryService"]="https://github.com/Gruppe-6-Hotel-Kong-Arthur/RoomInventoryService.git"
-)
+Navigate to each microservice directory and build its Docker image:
 
-# Clone, build, and run each microservice
-for service in "${!repos[@]}"; do
-  repo_url=${repos[$service]}
-  if [ -d "$service" ]; then
-    echo "Directory $service already exists, pulling latest changes..."
-    git -C $service pull
-  else
-    echo "Cloning $service..."
-    git clone $repo_url
-  fi
+```bash
+# Build HotelAPIGateway
+cd HotelAPIGateway
+docker build -t hotel_api_gateway .
+cd ..
 
-  echo "Building Docker image for $service..."
-  docker build -t "$service" "./$service" && docker image prune -f -y
+# Build CSVExportService
+cd CSVExportService
+docker build -t csv_export_service .
+cd ..
 
-  echo "Running $service container..."
-  docker run -d --name "$service" --network microservice-network "$service"
-done
+# Build DrinkSalesService
+cd DrinkSalesService
+docker build -t drink_sales_service .
+cd ..
 
-# Display running containers
-echo "All services are up and running:"
+# Build DrinkService
+cd DrinkService
+docker build -t drink_service .
+cd ..
+
+# Build ReservationService
+cd ReservationService
+docker build -t reservation_service .
+cd ..
+
+# Build GuestService
+cd GuestService
+docker build -t guest_service .
+cd ..
+
+# Build RoomInventoryService
+cd RoomInventoryService
+docker build -t room_inventory_service .
+cd ..
+```
+
+#### 3. Create a Docker Network
+
+Create a custom Docker network for inter-service communication:
+
+```bash
+docker network create microservice-network
+```
+
+#### 4. Run the Docker Containers
+
+Run each service in a container, linking them to the `microservice-network`:
+
+```bash
+# Run HotelAPIGateway
+docker run -d \
+  --name hotel_api_gateway \
+  --network microservice-network \
+  -p 5000:5000 \
+  hotel_api_gateway
+
+# Run CSVExportService
+docker run -d \
+  --name csv_export_service \
+  --network microservice-network \
+  -p 5001:5001 \
+  csv_export_service
+
+# Run DrinkSalesService
+docker run -d \
+  --name drink_sales_service \
+  --network microservice-network \
+  -p 5002:5002 \
+  drink_sales_service
+
+# Run DrinkService
+docker run -d \
+  --name drink_service \
+  --network microservice-network \
+  -p 5003:5003 \
+  drink_service
+
+# Run ReservationService
+docker run -d \
+  --name reservation_service \
+  --network microservice-network \
+  -p 5004:5004 \
+  reservation_service
+
+# Run GuestService
+docker run -d \
+  --name guest_service \
+  --network microservice-network \
+  -p 5005:5005 \
+  guest_service
+
+# Run RoomInventoryService
+docker run -d \
+  --name room_inventory_service \
+  --network microservice-network \
+  -p 5006:5006 \
+  room_inventory_service
+```
+
+#### 5. Verify Running Containers
+
+Check that all services are running correctly:
+
+```bash
 docker ps
 ```
 
-### Explanation
-
-- **Clones**: Pulls the latest code from each repository.
-- **Builds**: Creates Docker images for each service.
-- **Runs**: Launches each service in its own container within a shared Docker network (`microservice-network`).
-- **Network Isolation**: The shared network ensures inter-service communication.
-
-This script simplifies deploying all microservices. To stop and clean up all running containers, you can use:
-
-```bash
-docker stop $(docker ps -q) && docker rm $(docker ps -a -q)
-docker network rm microservice-network
-```
-
-This setup script ensures each service is ready to interact as expected, providing a quick and efficient way to deploy the full Hotel Kong Arthur platform.
-```
+Or you can use Docker Desktop to verify the containers are running and connected to the `microservice-network`.
 
 
 ## Project Management
