@@ -279,7 +279,7 @@ docker run -d --name csv_export_service \
   -e GUEST_SERVICE_URL=http://guest_service:5001 \
   -e RESERVATION_SERVICE_URL=http://reservation_service:5003 \
   -e ROOM_INVENTORY_SERVICE_URL=http://room_inventory_service:5002 \
-  -e DRINKS_SERVICE_URL=http://drink_service:5004 \
+  -e DRINK_SERVICE_URL=http://drink_service:5004 \
   -e DRINK_SALES_SERVICE_URL=http://drink_sales_service:5006 \
   marcusrk/csv_export_service
 
