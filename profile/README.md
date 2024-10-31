@@ -442,5 +442,5 @@ All project tasks, progress, and backlog items are tracked via our **Trello Boar
 
 | Name              | Role               | GitHub Profile                               |
 |-------------------|--------------------|----------------------------------------------|
-| **Marcus**        | Lead Developer      | [marcus-rk](https://github.com/marcus-rk)    |
-| **Christian**     | Lead Developer      | [ChristianBT96](https://github.com/ChristianBT96) |
+| **Marcus**        | (Unpaid) Intern      | [marcus-rk](https://github.com/marcus-rk)    |
+| **Christian**     | Lead Developer, DevOps Senior Executive      | [ChristianBT96](https://github.com/ChristianBT96) |
