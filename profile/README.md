@@ -29,7 +29,7 @@ This diagram illustrates the actual steps we took to execute the project, docume
 graph TD
     A("Project Scoping & Requirements Gathering") --> B("Market Research & Competitive Analysis")
     B --> C("Domain Model & Initial Architecture Design")
-    C --> D("SCRUM Framework Setup & User Story Creation")
+    C --> D("SCRUM & User Story Creation")
     D --> E("Trello Board Configuration for Sprint Planning")
     E --> F("Microservice Implementation")
     F --> G("Containerization & Deployment Preparation")
